@@ -6,6 +6,7 @@ using TMPro;
 using System;
 using Sirenix.OdinInspector;
 using Game._Scripts.Runtime.Scriptables;
+using Assets.Game._Scripts.Runtime.Battle;
 
 namespace Game._Scripts.Runtime.UI.Battle
 {
@@ -15,7 +16,7 @@ namespace Game._Scripts.Runtime.UI.Battle
         [SerializeField] private TMP_Text stackCountText;
         [SerializeField] private TMP_Text turnsRemainingText;
 
-        [ShowInInspector, ReadOnly] private StatusEffectSO statusEffect;
+        [ShowInInspector, ReadOnly] private StatusEffect statusEffect;
 
         private void OnDestroy()
         {
@@ -30,10 +31,10 @@ namespace Game._Scripts.Runtime.UI.Battle
             turnsRemainingText.text = statusEffect.RemainingTurnsEffected.ToString();
         }
 
-        public void SetStatusEffect(StatusEffectSO statusEffect)
+        public void SetStatusEffect(StatusEffect statusEffect)
         {
             this.statusEffect = statusEffect;
-            icon.sprite = statusEffect.StatusEffectIcon;
+            icon.sprite = statusEffect.StatusEffectSO.StatusEffectIcon;
             statusEffect.OnTurnsEffectedChangedEvent += UpdateIcon;
             statusEffect.OnStackCountChangedEvent += UpdateIcon;
             statusEffect.OnDestroyEvent += DestroyIcon;

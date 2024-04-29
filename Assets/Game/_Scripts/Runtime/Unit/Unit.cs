@@ -18,7 +18,7 @@ namespace Game._Scripts.Runtime.Unit
         [SerializeField] public UnitDataSO UnitData;
         
         [FoldoutGroup("Current Unit Data"), ShowInInspector] 
-        public Dictionary<StatType, float> currentUnitStats = new ();
+        public Dictionary<StatType, int> currentUnitStats = new ();
         
         [FoldoutGroup("Current Unit Data"), ShowInInspector] 
         public Dictionary<AbilitySO, int> currentUnitAbilities = new ();
@@ -41,7 +41,7 @@ namespace Game._Scripts.Runtime.Unit
         
         public void InitializeCurrentStats()
         {
-            currentUnitStats = new Dictionary<StatType, float>(UnitData.baseUnitStats);
+            currentUnitStats = new Dictionary<StatType, int>(UnitData.baseUnitStats);
             
             // BaseStat + AddStatPerLevel * (CurrentLevel - 1) * (StarModifier^StarRating)
             var str = SetupAttributeValue(StatType.Strength, (int)UnitData.baseUnitStats[StatType.Level]);
@@ -163,25 +163,25 @@ namespace Game._Scripts.Runtime.Unit
             Debug.Log($"{UnitData.unitName} - Stats were updated");
         }
         
-        private float SetupAttributeValue(StatType stat, int unitLevel)
+        private int SetupAttributeValue(StatType stat, int unitLevel)
         {
             switch (stat)
             {
                 case StatType.Strength:
-                    return UnitData.baseUnitStats[StatType.Strength] +
+                    return Mathf.RoundToInt(UnitData.baseUnitStats[StatType.Strength] +
                            UnitData.unitLevelUpBonus[StatLevelUpBonus.StrengthPerLevel] *
                            (unitLevel - 1) *
-                           Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]);
+                           Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]));
                 case StatType.Agility:
-                    return UnitData.baseUnitStats[StatType.Agility] +
+                    return Mathf.RoundToInt(UnitData.baseUnitStats[StatType.Agility] +
                            UnitData.unitLevelUpBonus[StatLevelUpBonus.AgilityPerLevel] *
                            (unitLevel - 1) *
-                           Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]);
+                           Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]));
                 case StatType.Magik:
-                    return UnitData.baseUnitStats[StatType.Magik] +
+                    return Mathf.RoundToInt(UnitData.baseUnitStats[StatType.Magik] +
                            UnitData.unitLevelUpBonus[StatLevelUpBonus.MagikPerLevel] *
                            (unitLevel - 1) *
-                           Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]);
+                           Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]));
                 case StatType.Armor:
                     return UnitData.baseUnitStats[StatType.Armor] +
                            UnitData.unitLevelUpBonus[StatLevelUpBonus.ArmorPerLevel] * (unitLevel - 1);

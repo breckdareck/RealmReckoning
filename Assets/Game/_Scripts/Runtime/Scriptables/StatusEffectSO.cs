@@ -36,7 +36,7 @@ namespace Game._Scripts.Runtime.Scriptables
         [field: SerializeField] public bool Preventable { get; private set; }
         [field: SerializeField] public bool AppliedThisTurn { get; private set; } = true;
 
-        [field: SerializeField] public int TurnsEffected { get; private set; } = 1;
+        [field: SerializeField] public int DefaultTurnsEffected { get; private set; } = 1;
         [field: SerializeField] public int RemainingTurnsEffected { get; private set; } = 1;
 
         [field: SerializeField] public List<StatusEffectData> StatusEffectDatas { get; private set; }
@@ -50,13 +50,13 @@ namespace Game._Scripts.Runtime.Scriptables
 
         public void SetTurnsEffected(int newTurnsEffected)
         {
-            TurnsEffected = newTurnsEffected;
+            DefaultTurnsEffected = newTurnsEffected;
             OnTurnsEffectedChangedEvent?.Invoke();
         }
 
         public void ResetTurnsEffected()
         {
-            RemainingTurnsEffected = TurnsEffected;
+            RemainingTurnsEffected = DefaultTurnsEffected;
             SetAppliedThisTurn(true);
             OnTurnsEffectedChangedEvent?.Invoke();
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Enums;
 using Game._Scripts.Runtime.Scriptables;
 using Sirenix.OdinInspector;
@@ -60,17 +61,17 @@ namespace Game._Scripts.Runtime.Battle
         [ShowInInspector]
         [ReadOnly]
         [FoldoutGroup("Battle Vars")]
-        public Dictionary<StatType, float> CurrentBattleStats { get; set; }
+        public Dictionary<StatType, int> CurrentBattleStats { get; set; }
 
         [ShowInInspector]
         [ReadOnly]
         [FoldoutGroup("Battle Vars")]
-        public Dictionary<StatType, float> BattleBonusStats { get; set; }
+        public Dictionary<StatType, int> BattleBonusStats { get; set; }
 
         [ShowInInspector]
         [ReadOnly]
         [FoldoutGroup("Battle Vars")]
-        public List<StatusEffectSO> StatusEffects { get; set; } = new();
+        public List<StatusEffect> StatusEffects { get; set; } = new();
 
         [ShowInInspector]
         [ReadOnly]
@@ -83,11 +84,11 @@ namespace Game._Scripts.Runtime.Battle
             Unit = unit;
             BattleUnit = battleUnit;
 
-            CurrentBattleStats = new Dictionary<StatType, float>(unit.currentUnitStats);
+            CurrentBattleStats = new Dictionary<StatType, int>(unit.currentUnitStats);
             //MaxHealth = (int)CurrentBattleStats[GeneralStat.Health];
             MaxBarrier = MaxHealth * MaxBarrierPercent;
             CurrentHealth = MaxHealth;
-            BattleBonusStats = new Dictionary<StatType, float>();
+            BattleBonusStats = new Dictionary<StatType, int>();
         }
     }
 }
