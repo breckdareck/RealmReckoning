@@ -1,0 +1,9 @@
+@startuml
+enum TargetType {
+    Enemy,
+    Ally,
+    Self,
+    AllAllies,
+    AllEnemies,
+}
+@enduml

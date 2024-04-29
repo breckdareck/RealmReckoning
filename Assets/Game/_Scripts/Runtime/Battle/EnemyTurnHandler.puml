@@ -1,0 +1,8 @@
+@startuml
+class EnemyTurnHandler {
+    - _battleStateMachine : BattleStateMachine
+    - _abilityExecutor : AbilityExecutor
+    + EnemyTurnHandler(battleStateMachine:BattleStateMachine, abilityExecutor:AbilityExecutor)
+    + <<async>> StartEnemyTurn() : void
+}
+@enduml

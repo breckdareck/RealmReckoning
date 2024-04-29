@@ -1,0 +1,5 @@
+@startuml
+interface ICommand {
+    Execute(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+@enduml

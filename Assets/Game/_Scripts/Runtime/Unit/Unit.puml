@@ -1,0 +1,18 @@
+@startuml
+class Unit {
+    + UnitData : UnitDataSO
+    + currentUnitStats : Dictionary<GeneralStat, float>
+    + currentUnitAbilities : Dictionary<AbilitySO, int>
+    + gearSlots : List<GearSlot>
+    + ExperienceRequiredToLevel : int <<get>>
+    + {static} CreateUnit(unitData:UnitDataSO) : Unit
+    + InitializeCurrentStats() : void
+    - InitializeCurrentAbilities() : void
+    + <<async>> AddExperience(expToAdd:int) : Task
+    - CheckIfUnitLeveled() : void
+    - OnUnitLevelUp(newUnitLevel:int) : void
+    + UpdateStats() : void
+    - SetupAttributeValue(stat:GeneralStat, unitLevel:int) : float
+    - ResetUnitToDefault() : void
+}
+@enduml

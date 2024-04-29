@@ -1,0 +1,19 @@
+@startuml
+class EventManager <<sealed>> {
+    + {static} Instance : EventManager
+    +  <<event>> OnStateChangedEvent : Action 
+    +  <<event>> OnStepChangedEvent : Action<string> 
+    +  <<event>> OnAbilitySelectionChangedEvent : Action<AbilitySO> 
+    +  <<event>> OnUnitSelectedChangedEvent : Action<BattleUnit> 
+    +  <<event>> OnUnitStatusEffectsDispelledEvent : Action<int> 
+    +  <<event>> OnEnergyChangedEvent : Action 
+    - Awake() : void
+    + InvokeOnStateChanged() : void
+    + InvokeOnStepChanged(text:string) : void
+    + InvokeOnAbilitySelectionChanged(abilitySo:AbilitySO) : void
+    + InvokeOnUnitSelectedChanged(battleUnit:BattleUnit) : void
+    + InvokeOnUnitStatusEffectsDispelledEvent(obj:int) : void
+    + InvokeOnEnergyChanged() : void
+}
+MonoBehaviour <|-- EventManager
+@enduml

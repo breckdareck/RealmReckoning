@@ -1,0 +1,28 @@
+@startuml
+class StatusEffectSO {
+    + StatusEffectIcon : Sprite <<get>>
+    + StatusEffectName : string <<get>>
+    + StatusEffectType : StatusEffectType <<get>>
+    + StatusEffectCalculationType : StatusEffectCalculationType <<get>>
+    + Duplicatable : bool <<get>>
+    + CanStack : bool <<get>>
+    + StackCount : int <<get>> = 1
+    + MaxStackCount : int <<get>> = 1
+    + Dispellable : bool <<get>>
+    + Preventable : bool <<get>>
+    + AppliedThisTurn : bool <<get>> = true
+    + TurnsEffected : int <<get>> = 1
+    + RemainingTurnsEffected : int <<get>> = 1
+    + StatusEffectDatas : List<StatusEffectData> <<get>>
+    + IncreaseStackCount() : void
+    + SetTurnsEffected(newTurnsEffected:int) : void
+    + ResetTurnsEffected() : void
+    + SetAppliedThisTurn(value:bool) : void
+    + TickDownStatusEffect() : void
+}
+class StatusEffectData {
+    + StatEffected : GeneralStat <<get>>
+    + EffectAmountPercent : int <<get>>
+}
+ScriptableObject <|-- StatusEffectSO
+@enduml

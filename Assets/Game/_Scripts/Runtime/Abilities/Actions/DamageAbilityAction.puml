@@ -1,0 +1,14 @@
+@startuml
+class DamageAbilityAction {
+    + DamageType : DamageType
+    + CanPierceBarrier : bool
+    + CanBeDodged : bool = true
+    + CanBeCritHit : bool = true
+    + IsGuaranteedCrit : bool
+    + DamagePercent : int
+    + AddedDamagePercent : int
+    + AddDamage(addedDamage:int) : void
+    + ResetAddedDamagePercent() : void
+}
+AbilityAction <|-- DamageAbilityAction
+@enduml

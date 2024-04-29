@@ -1,0 +1,7 @@
+@startuml
+class DamageModifier {
+    + AddedDamagePercent : int <<get>>
+    + <<override>> ApplyPreEffect(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+PreExecutionAbilityModifier <|-- DamageModifier
+@enduml

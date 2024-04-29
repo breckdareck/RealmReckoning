@@ -1,0 +1,6 @@
+@startuml
+class UnitRankSO {
+    + unitRank : string
+}
+ScriptableObject <|-- UnitRankSO
+@enduml

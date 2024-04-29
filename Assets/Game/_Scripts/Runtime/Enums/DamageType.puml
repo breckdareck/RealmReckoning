@@ -1,0 +1,6 @@
+@startuml
+enum DamageType {
+    PhysicalDamage,
+    MagikalDamage,
+}
+@enduml

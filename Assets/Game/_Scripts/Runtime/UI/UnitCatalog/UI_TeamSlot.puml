@@ -1,0 +1,16 @@
+@startuml
+class UI_TeamSlot {
+    - starOffImage : Sprite
+    - starOnImage : Sprite
+    - slotButton : Button
+    - unitImage : Image
+    - unitNameText : TMP_Text
+    - starImages : List<Image>
+    - attachedUnitData : Runtime.Unit.Unit = null
+    + AttachedUnitData : Runtime.Unit.Unit <<get>>
+    + InitializeUI() : void
+    + EnableDisableUI(value:bool) : void
+    + SetAttachedUnitData(newUnitData:Runtime.Unit.Unit) : void
+}
+MonoBehaviour <|-- UI_TeamSlot
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+class UnitTagSO {
+    + unitTag : string
+}
+ScriptableObject <|-- UnitTagSO
+@enduml

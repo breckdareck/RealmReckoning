@@ -1,0 +1,5 @@
+@startuml
+class Helpers <<static>> {
+    + {static} DestroyChildren(t:Transform) : void
+}
+@enduml

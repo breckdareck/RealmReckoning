@@ -1,0 +1,17 @@
+@startuml
+class AbilityExecutor {
+    - _remainingActions : List<AbilityAction>
+    - _waitingForTargetSelection : bool
+    - _abilityCanceled : bool = true
+    + WaitingForTargetSelection : bool <<get>>
+    + AbilityCanceled : bool <<get>>
+    + ExecuteAbility(ability:AbilitySO, source:BattleUnit) : Task
+    - <<async>> StartAction(action:AbilityAction, source:BattleUnit, ability:AbilitySO) : Task
+    - <<async>> TargetAndExecuteAction(action:AbilityAction, source:BattleUnit, ability:AbilitySO) : Task
+    - <<async>> AISelectTarget(ability:AbilitySO) : Task<List<BattleUnit>>
+    - <<async>> GetTargetForAction(action:AbilityAction, source:BattleUnit) : Task<List<BattleUnit>>
+    + CancelAbility() : void
+    + SetWaitingForSelectionFalse() : void
+    + SetWaitingForSelectionTrue() : void
+}
+@enduml

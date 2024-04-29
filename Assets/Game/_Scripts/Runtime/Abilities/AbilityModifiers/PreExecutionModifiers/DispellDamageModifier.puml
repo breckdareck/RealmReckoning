@@ -1,0 +1,11 @@
+@startuml
+class DispellDamageModifier {
+    + TargetType : TargetType
+    + StatusEffectsToCheckAgainst : List<StatusEffectSO>
+    + AddedDamagePercentPerStatusEffectDispelled : int <<get>>
+    - _statusEffectsDispelled : int
+    + <<override>> ApplyPreEffect(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+    - UpdateStatusEffectsDispelled(amount:int) : void
+}
+PreExecutionAbilityModifier <|-- DispellDamageModifier
+@enduml

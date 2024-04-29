@@ -1,0 +1,17 @@
+@startuml
+class ApplyStatusEffectModifier {
+    + RankToCheckAgainst : UnitRankSO
+    + TagToCheckAgainst : UnitTagSO
+    + StatusEffectToCheckAgainst : StatusEffectSO
+    + AddedStatusEffect : StatusEffectSO
+    + EffectedDuration : int
+    + ChanceToAfflict : int
+    + TargetType : TargetType
+    + <<override>> ApplyPostEffect(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+    - ApplyToAllUnits(units:IEnumerable<BattleUnit>, command:StatusEffectCommand, source:BattleUnit, ability:AbilitySO) : void
+    - CheckTag(unit:BattleUnit) : bool
+    - CheckStatusEffect(unit:BattleUnit) : bool
+    - CheckRank(unit:BattleUnit) : bool
+}
+PostExecutionAbilityModifier <|-- ApplyStatusEffectModifier
+@enduml

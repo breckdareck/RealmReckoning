@@ -1,0 +1,7 @@
+@startuml
+abstract class AbilityAction {
+    + actionType : ActionType
+    + targetType : TargetType
+    + targetSelection : TargetSelection
+}
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+abstract class PreExecutionAbilityModifier {
+    + {abstract} ApplyPreEffect(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+abstract class PostExecutionAbilityModifier {
+    + {abstract} ApplyPostEffect(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+@enduml

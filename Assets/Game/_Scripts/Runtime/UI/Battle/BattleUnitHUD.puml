@@ -1,0 +1,10 @@
+@startuml
+class BattleUnitHUD {
+    + lookAt : Transform
+    + offset : Vector3
+    - cam : Camera
+    - Start() : void
+    - Update() : void
+}
+MonoBehaviour <|-- BattleUnitHUD
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class AuthenticationManager {
+    - _scene : AsyncOperation
+    - Start() : void
+    + <<async>> AnonymousLoginClicked() : void
+}
+MonoBehaviour <|-- AuthenticationManager
+@enduml

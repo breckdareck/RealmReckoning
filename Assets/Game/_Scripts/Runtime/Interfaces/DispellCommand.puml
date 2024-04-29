@@ -1,0 +1,8 @@
+@startuml
+class DispellCommand {
+    - <<readonly>> _specificStatusEffectsToDispell : List<StatusEffectSO>
+    + DispellCommand(specificStatusEffectsToDispell:List<StatusEffectSO>)
+    + Execute(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+ICommand <|-- DispellCommand
+@enduml

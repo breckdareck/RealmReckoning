@@ -1,0 +1,9 @@
+@startuml
+class HealCommand {
+    - <<readonly>> _healAmount : int
+    - <<readonly>> _barrierAmount : int
+    + HealCommand(healAmount:int, barrierAmount:int)
+    + Execute(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+ICommand <|-- HealCommand
+@enduml

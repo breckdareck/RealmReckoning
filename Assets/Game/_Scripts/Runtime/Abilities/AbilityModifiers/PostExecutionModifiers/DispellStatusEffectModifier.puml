@@ -1,0 +1,8 @@
+@startuml
+class DispellStatusEffectModifier {
+    + TargetType : TargetType
+    + StatusEffectToCheckAgainst : StatusEffectSO
+    + <<override>> ApplyPostEffect(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+PostExecutionAbilityModifier <|-- DispellStatusEffectModifier
+@enduml

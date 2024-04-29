@@ -1,0 +1,10 @@
+@startuml
+enum GearSlotType {
+    Head,
+    Chest,
+    Hands,
+    Torso,
+    Feet,
+    Weapon,
+}
+@enduml

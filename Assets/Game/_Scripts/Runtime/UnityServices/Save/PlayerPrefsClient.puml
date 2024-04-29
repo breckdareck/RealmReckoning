@@ -1,0 +1,11 @@
+@startuml
+class PlayerPrefClient {
+    + Save(key:string, value:object) : Task
+    + <<async>> Save(values:(string key, object value)[]) : Task
+    + Load(key:string) : Task<T>
+    + <<async>> Load(keys:string[]) : Task<IEnumerable<T>>
+    + Delete(key:string) : Task
+    + DeleteAll() : Task
+}
+ISaveClient <|-- PlayerPrefClient
+@enduml

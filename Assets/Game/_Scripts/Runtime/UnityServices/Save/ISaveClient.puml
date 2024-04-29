@@ -1,0 +1,10 @@
+@startuml
+interface ISaveClient {
+    Save(key:string, value:object) : Task
+    Save(values:(string key, object value)[]) : Task
+    Load(key:string) : Task<T>
+    Load(keys:string[]) : Task<IEnumerable<T>>
+    Delete(key:string) : Task
+    DeleteAll() : Task
+}
+@enduml

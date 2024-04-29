@@ -1,0 +1,29 @@
+@startuml
+class EnergyManager {
+    - totalMaxEnergy : int = 1000
+    - regenMaxEnergy : int = 100
+    - regenRateInMinutes : float = 1
+    - regenAmount : int = 1
+    + CurrentEnergy : int <<get>>
+    - _lastEnergyUpdateTime : DateTime
+    - _nextEnergyUpdateTime : DateTime
+    - _timeSinceLastUpdate : TimeSpan
+    - _toMaxEnergy : TimeSpan
+    + LastEnergyUpdateTime : DateTime <<get>>
+    + NextEnergyUpdateTime : DateTime <<get>>
+    + {static} Instance : EnergyManager <<get>>
+    - Awake() : void
+    - Start() : void
+    - Update() : void
+    - RegenerateMissedEnergy() : void
+    - MainRegenerationLoop() : void
+    - SetNextEnergyUpdateTime() : void
+    - RegenerateEnergy() : void
+    + UpdateEnergyAmount(amountToChange:int, allowsEnergyOvercap:bool) : void
+    - CalculateToMaxEnergy() : void
+    - LoadEnergyData() : void
+    - SaveEnergyData() : void
+    - OnApplicationQuit() : void
+}
+MonoBehaviour <|-- EnergyManager
+@enduml

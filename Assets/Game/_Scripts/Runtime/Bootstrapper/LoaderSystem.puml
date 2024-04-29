@@ -1,0 +1,19 @@
+@startuml
+class LoaderSystem {
+    - {static} _instance : LoaderSystem
+    - _loaderVisual : CanvasGroup
+    - _spinnerImage : Transform
+    - _fadeSpeed : float = 2
+    - _target : float
+    - Awake() : void
+    - ToggleLoader(on:bool) : void
+    - Update() : void
+}
+class Load {
+    + Load()
+    + Dispose() : void
+}
+MonoBehaviour <|-- LoaderSystem
+LoaderSystem +-- Load
+IDisposable <|-- Load
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class StatusEffectCommand {
+    - <<readonly>> _statusEffects : List<StatusEffectSO>
+    - <<readonly>> _extraChanceToAfflict : int
+    + StatusEffectCommand(statusEffects:List<StatusEffectSO>, extraChanceToAfflict:int)
+    + Execute(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+ICommand <|-- StatusEffectCommand
+@enduml

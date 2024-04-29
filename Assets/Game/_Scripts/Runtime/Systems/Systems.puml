@@ -1,0 +1,5 @@
+@startuml
+class Systems {
+}
+"PersistentSingleton`1" "<Systems>" <|-- Systems
+@enduml

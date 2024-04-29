@@ -1,0 +1,11 @@
+@startuml
+class PlayerTurnHandler {
+    - _battleStateMachine : BattleStateMachine
+    - _abilityExecutor : AbilityExecutor
+    - _currentAbilitySo : AbilitySO
+    + PlayerTurnHandler(battleStateMachine:BattleStateMachine, abilityExecutor:AbilityExecutor)
+    + StartPlayerTurn() : void
+    - SetupCurrentUnitAbilityButtons() : void
+    - <<async>> OnAbilitySelected(selectedAbilitySo:AbilitySO) : void
+}
+@enduml

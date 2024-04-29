@@ -1,0 +1,9 @@
+@startuml
+enum GearClassType {
+    PhysicalTank,
+    MagikalTank,
+    PhysicalAttacker,
+    MagikalAttacker,
+    Support,
+}
+@enduml

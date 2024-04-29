@@ -1,0 +1,8 @@
+@startuml
+class GearSlot {
+    + Gear : GearSO <<get>>
+    + GearSlotType : GearSlotType <<get>>
+    + IsEquipped : bool <<get>>
+    + SetGearType(slotType:GearSlotType) : void
+}
+@enduml

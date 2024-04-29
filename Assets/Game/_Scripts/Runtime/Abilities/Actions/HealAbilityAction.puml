@@ -1,0 +1,10 @@
+@startuml
+class HealAbilityAction {
+    + healPercent : int
+    + barrierPercent : int
+    + addedHealPercent : int
+    + AddHealAmount(addedHeal:int) : void
+    + ResetAddedHealPercent() : void
+}
+AbilityAction <|-- HealAbilityAction
+@enduml

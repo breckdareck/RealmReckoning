@@ -1,0 +1,9 @@
+@startuml
+enum LevelUpBonus {
+    StrengthPerLevel,
+    AgilityPerLevel,
+    MagikPerLevel,
+    ArmorPerLevel,
+    MagikArmorPerLevel,
+}
+@enduml

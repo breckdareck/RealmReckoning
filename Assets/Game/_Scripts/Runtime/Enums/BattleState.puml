@@ -1,0 +1,10 @@
+@startuml
+enum BattleState {
+    Start,
+    TurnCycle,
+    PlayerTurn,
+    EnemyTurn,
+    EndTurn,
+    End,
+}
+@enduml

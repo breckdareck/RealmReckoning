@@ -1,0 +1,7 @@
+@startuml
+class UnitSaveData {
+    + unitLevel : int
+    + starRating : int
+    + experience : int
+}
+@enduml

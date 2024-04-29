@@ -1,0 +1,11 @@
+@startuml
+class AbilitySO {
+    + AbilityName : string <<get>>
+    + Description : string <<get>>
+    + CooldownTurns : int <<get>>
+    + BaseAction : AbilityAction <<get>>
+    + PreExecutionModifiers : Dictionary<int, List<PreExecutionAbilityModifier>> <<get>>
+    + PostExecutionModifiers : Dictionary<int, List<PostExecutionAbilityModifier>> <<get>>
+}
+SerializedScriptableObject <|-- AbilitySO
+@enduml

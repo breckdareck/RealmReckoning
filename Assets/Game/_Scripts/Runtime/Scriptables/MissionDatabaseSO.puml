@@ -1,0 +1,7 @@
+@startuml
+class MissionDatabaseSO {
+    + missions : List<MissionSO>
+    + GetMissionByName(missionName:string) : MissionSO
+}
+ScriptableObject <|-- MissionDatabaseSO
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+class AudioSystem {
+    - _musicSource : AudioSource
+    - _soundsSource : AudioSource
+    + PlayMusic(clip:AudioClip) : void
+    + PlaySound(clip:AudioClip, pos:Vector3, vol:float) : void
+    + PlaySound(clip:AudioClip, vol:float) : void
+}
+"StaticInstance`1" "<AudioSystem>" <|-- AudioSystem
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+class FactionSO {
+    + factionName : string
+}
+ScriptableObject <|-- FactionSO
+@enduml

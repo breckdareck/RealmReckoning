@@ -1,0 +1,13 @@
+@startuml
+class UnitDataSO {
+    + unitName : string
+    + unitFactionSo : FactionSO
+    + unitRankSo : UnitRankSO
+    + unitTags : UnitTagSO[]
+    + baseUnitStats : Dictionary<GeneralStat, float>
+    + unitLevelUpBonus : Dictionary<LevelUpBonus, float>
+    + abilities : AbilitySO[]
+    + SetupDefaultBaseStats() : void
+}
+SerializedScriptableObject <|-- UnitDataSO
+@enduml

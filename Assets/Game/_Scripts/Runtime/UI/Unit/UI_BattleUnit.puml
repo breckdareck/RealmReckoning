@@ -1,0 +1,29 @@
+@startuml
+class UI_BattleUnit {
+    - unitNameText : TMP_Text
+    - healthImage : Image
+    - barrierImage : Image
+    - healthSlider : Slider
+    - unitButton : Button
+    - activeUnitAnim : Transform
+    - enemyTargetAnim : Transform
+    - damageText : DamageText
+    - playerDamageTextLocation : Transform
+    - enemyDamageTextLocation : Transform
+    - turnProgressSlider : Slider
+    - debugTurnProgressText : TMP_Text
+    - canvasLookAtContraints : List<LookAtConstraint>
+    - _attachedBattleUnit : BattleUnit
+    + InitializeUI(battleUnit:BattleUnit) : void
+    - SetupLookAtContraints() : void
+    + UpdateHealthUI() : void
+    + UpdateBarrierUI() : void
+    + UpdateTurnSliderValue(value:float) : void
+    + SetActiveUnitAnim() : void
+    + SetEnemyTargetAnim() : void
+    + CreateDamageText(damageAmount:string) : void
+    + CreateHealText(healAmount:int) : void
+    - CreateText(text:string, isHeal:bool) : void
+}
+MonoBehaviour <|-- UI_BattleUnit
+@enduml

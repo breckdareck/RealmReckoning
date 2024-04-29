@@ -1,0 +1,9 @@
+@startuml
+class BaseStatsSO {
+    + generalStats : Dictionary<GeneralStat, float>
+    + levelUpBonuses : Dictionary<LevelUpBonus, float>
+    + GetStatValue(stat:Enum) : float
+    - GetStatValueFromDictionary(dictionary:Dictionary<T, float>, key:T) : float
+}
+SerializedScriptableObject <|-- BaseStatsSO
+@enduml

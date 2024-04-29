@@ -1,0 +1,5 @@
+@startuml
+class ManageableDataAttribute {
+}
+Attribute <|-- ManageableDataAttribute
+@enduml

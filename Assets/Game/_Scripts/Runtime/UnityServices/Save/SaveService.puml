@@ -1,0 +1,11 @@
+@startuml
+class SaveService <<static>> {
+    - {static} _client : ISaveClient
+    + {static} SetISaveClient(isLocalSave:bool) : void
+    + {static} <<async>> LoadUnit(key:string) : Task<UnitSaveData>
+    + {static} <<async>> LoadUnits(keys:string[]) : Task<List<UnitSaveData>>
+    + {static} <<async>> LoadAllUnits() : Task<List<UnitSaveData>>
+    + {static} <<async>> SaveUnit(unit:Unit.Unit) : Task
+    + {static} <<async>> SaveUnits(units:(string key, object value)[]) : Task
+}
+@enduml

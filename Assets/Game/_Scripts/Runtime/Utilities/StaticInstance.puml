@@ -1,0 +1,16 @@
+@startuml
+abstract class "StaticInstance`1"<T> {
+    + {static} Instance : T <<get>>
+    # <<virtual>> Awake() : void
+    # <<virtual>> OnApplicationQuit() : void
+}
+abstract class "Singleton`1"<T> {
+    # <<override>> Awake() : void
+}
+abstract class "PersistentSingleton`1"<T> {
+    # <<override>> Awake() : void
+}
+MonoBehaviour <|-- "StaticInstance`1"
+"StaticInstance`1" "<T>" <|-- "Singleton`1"
+"Singleton`1" "<T>" <|-- "PersistentSingleton`1"
+@enduml

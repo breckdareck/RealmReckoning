@@ -1,0 +1,15 @@
+@startuml
+class AttackCommand {
+    - <<readonly>> _damageType : DamageType
+    - _attackWasCrit : bool = false
+    + AttackCommand(damageType:DamageType)
+    + Execute(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+    - AbilityModifierPreCheck(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+    - AbilityModifierPostCheck(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+    - CalculateHitChance(source:BattleUnit, target:BattleUnit) : float
+    - CalculateDamage(source:BattleUnit, action:DamageAbilityAction) : int
+    - CalculateCritChance(source:BattleUnit, target:BattleUnit) : float
+    - CalculateArmorReduction(source:BattleUnit, target:BattleUnit, damage:int) : int
+}
+ICommand <|-- AttackCommand
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+class UI_MainMenu {
+    + currentTimeText : TMP_Text
+    + lastUpdateTimeText : TMP_Text
+    + nextUpdateTimeText : TMP_Text
+    + energyText : TMP_Text
+    + use10Button : Button
+    + gain10Button : Button
+    + gain10OvercapButton : Button
+    + unitCollectionButton : Button
+    + UnitCatalogCanvas : Canvas
+    + {static} Instance : UI_MainMenu <<get>>
+    - Awake() : void
+    - Start() : void
+    - OnEnable() : void
+    - OnDisable() : void
+    - Update() : void
+    - UpdateEnergyText() : void
+    + OpenUnitCollectionMenu() : void
+    + LoadScene(sceneName:string) : void
+    - LoadSceneAsync(sceneName:string) : IEnumerator
+}
+MonoBehaviour <|-- UI_MainMenu
+@enduml

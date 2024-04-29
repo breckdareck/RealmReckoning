@@ -1,0 +1,9 @@
+@startuml
+enum ActionType {
+    Attack,
+    Heal,
+    StatusEffect,
+    Dispell,
+    Revive,
+}
+@enduml

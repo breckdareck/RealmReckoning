@@ -1,0 +1,11 @@
+@startuml
+class WorldSpaceUI {
+    + uiElement : GameObject
+    + scale : float = 0.07f
+    - mainCameraTransform : Transform
+    - Start() : void
+    - Update() : void
+    - UpdateScale() : void
+}
+MonoBehaviour <|-- WorldSpaceUI
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+class BattleUnit {
+    - <<const>> MaxBarrierPercent : int = 10
+    + UIBattleUnit : UI_BattleUnit <<get>>
+    + Unit : Unit.Unit <<get>>
+    + TurnProgress : float <<get>>
+    + IsTakingTurn : bool <<get>>
+    + IsControlledByAI : bool <<get>>
+    + IsDead : bool <<get>>
+    + CurrentHealth : int <<get>>
+    + MaxHealth : int <<get>>
+    + CurrentBarrier : int <<get>>
+    + MaxBarrier : int <<get>>
+    + CurrentBattleStats : Dictionary<GeneralStat, float> <<get>>
+    + BattleBonusStats : Dictionary<GeneralStat, float> <<get>>
+    + StatusEffects : List<StatusEffectSO> <<get>>
+    + AbilityCooldowns : Dictionary<AbilitySO, int> <<get>>
+    - Awake() : void
+    + Initialize(unit:Unit.Unit, isAIUnit:bool) : void
+    + UpdateTurnProgress(deltaTime:float) : void
+    + StartTurn() : void
+    + EndTurn() : void
+    + ApplyDamage(damageAmount:int, isAttackDodged:bool) : void
+    - SetUnitDead() : void
+    - ComputeDamage(damageAmount:int) : int
+    - ApplyDamageToBarrier(remainingDamage:int) : int
+    - ApplyDamageToHealth(remainingDamage:int) : void
+    + ApplyHeal(healAmount:int, barrierAmount:int) : void
+    + ApplyStatusEffect(statusEffectSo:StatusEffectSO) : void
+    + DispellAllStatusEffects() : void
+    + DispellSpecificStatusEffects(effects:List<StatusEffectSO>) : void
+    - RemoveCurrentBonusStats() : void
+    - CalculateBattleBonusStats() : void
+    - RecalculateCurrentStats() : void
+    + TickDownStatusEffects() : void
+    + IsAbilityOnCooldown(ability:AbilitySO) : bool
+    + StartCooldown(ability:AbilitySO) : void
+}
+MonoBehaviour <|-- BattleUnit
+@enduml

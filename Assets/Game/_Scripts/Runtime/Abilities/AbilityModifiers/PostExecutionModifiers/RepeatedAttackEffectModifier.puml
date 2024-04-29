@@ -1,0 +1,10 @@
+@startuml
+class RepeatedAttackEffectModifier {
+    + ChanceOnCritHit : int
+    + ChanceOnNonCritHit : int
+    - _isCrit : bool
+    + SetIsCrit(value:bool) : void
+    + <<override>> ApplyPostEffect(source:BattleUnit, target:BattleUnit, ability:AbilitySO) : void
+}
+PostExecutionAbilityModifier <|-- RepeatedAttackEffectModifier
+@enduml

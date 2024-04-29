@@ -1,0 +1,5 @@
+@startuml
+class CommandFactory <<static>> {
+    + {static} CreateCommand(action:AbilityAction) : ICommand
+}
+@enduml

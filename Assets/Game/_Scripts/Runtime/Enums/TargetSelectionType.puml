@@ -1,0 +1,6 @@
+@startuml
+enum TargetSelectionType {
+    Manual,
+    Auto,
+}
+@enduml

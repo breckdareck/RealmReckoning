@@ -1,0 +1,6 @@
+@startuml
+class LevelingConstants <<static>> {
+    + <<const>> BaseExperience : int = 100
+    + <<const>> Multiplier : float = 1.12f
+}
+@enduml

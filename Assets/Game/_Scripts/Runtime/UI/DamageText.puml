@@ -1,0 +1,14 @@
+@startuml
+class DamageText <<sealed>> {
+    + dmgtxt : TMP_Text
+    + spacingScale : float = .5f
+    + fadeoutTime : float = .5f
+    + fadeoutRate : float = .03f
+    - fadeOut : Color
+    - t : float
+    - Awake() : void
+    - Update() : void
+    + SetDamageText(amount:string, isHeal:bool, isCrit:bool) : void
+}
+MonoBehaviour <|-- DamageText
+@enduml

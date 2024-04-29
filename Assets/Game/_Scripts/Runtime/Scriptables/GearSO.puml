@@ -1,0 +1,11 @@
+@startuml
+class GearSO {
+    + gearName : string
+    + gearImage : Image
+    + gearSlotType : GearSlotType
+    + gearClassType : GearClassType
+    + gearTierType : GearTierType
+    + gearStats : Dictionary<GeneralStat, float>
+}
+SerializedScriptableObject <|-- GearSO
+@enduml

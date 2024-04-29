@@ -1,0 +1,9 @@
+@startuml
+class TargetSelector <<static>> {
+    + {static} <<async>> SelectManualTarget(action:AbilityAction, abilityExecutor:AbilityExecutor) : Task<BattleUnit>
+    - {static} <<async>> WaitForValidTargetSelection(action:AbilityAction, abilityExecutor:AbilityExecutor) : Task
+    + {static} GetAutomaticallySelectedTarget() : BattleUnit
+    + {static} GetAllAllyUnits() : List<BattleUnit>
+    + {static} GetAllEnemyUnits() : List<BattleUnit>
+}
+@enduml

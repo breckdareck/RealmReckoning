@@ -1,0 +1,10 @@
+@startuml
+class ResourceSystem {
+    + UnitDatas : List<UnitDataSO> <<get>>
+    - _UnitDatasDict : Dictionary<string, UnitDataSO>
+    # <<override>> Awake() : void
+    - AssembleResources() : void
+    + GetUnitData(t:string) : UnitDataSO
+}
+"StaticInstance`1" "<ResourceSystem>" <|-- ResourceSystem
+@enduml

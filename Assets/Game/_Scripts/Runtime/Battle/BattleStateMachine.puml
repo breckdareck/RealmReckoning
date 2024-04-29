@@ -1,0 +1,33 @@
+@startuml
+class BattleStateMachine {
+    - _currentState : BattleState
+    - _currentUnitIndex : int
+    - _playerUnits : List<BattleUnit>
+    - _enemyUnits : List<BattleUnit>
+    - _allUnits : List<BattleUnit>
+    - _playerTurnHandler : PlayerTurnHandler
+    - _enemyTurnHandler : EnemyTurnHandler
+    - _abilityExecutor : AbilityExecutor
+    - _selectedAbilitySo : AbilitySO
+    - _selectedBattleUnit : BattleUnit
+    - _targetedEnemyBattleUnit : BattleUnit
+    - _lastTargetedBattleUnit : BattleUnit
+    + CurrentState : BattleState <<get>>
+    + PlayerUnits : List<BattleUnit> <<get>>
+    + EnemyUnits : List<BattleUnit> <<get>>
+    + BattleStateMachine(playerUnits:List<BattleUnit>, enemyUnits:List<BattleUnit>, allUnits:List<BattleUnit>)
+    + Update() : void
+    - UpdateUnitsProgress() : void
+    + SetState(newState:BattleState) : void
+    - StartBattle() : void
+    - EndTurn() : void
+    - EndBattle() : void
+    - GetNextUnitTurn() : BattleState
+    - IsBattleOver() : bool
+    + GetActiveUnit() : BattleUnit
+    + OnUnitSelected(clickedBattleUnit:BattleUnit) : void
+    + GetSelectedUnit() : BattleUnit
+    + ResetSelectedUnit() : void
+    + GetTargetUnit() : BattleUnit
+}
+@enduml

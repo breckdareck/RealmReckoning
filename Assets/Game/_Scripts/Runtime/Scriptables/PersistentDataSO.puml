@@ -1,0 +1,7 @@
+@startuml
+class PersistentDataSO {
+    + stats : Dictionary<GeneralStat, float>
+    + GearSlots : List<GearSlot>
+}
+SerializedScriptableObject <|-- PersistentDataSO
+@enduml

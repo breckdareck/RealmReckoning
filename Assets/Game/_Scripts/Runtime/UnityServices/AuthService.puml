@@ -1,0 +1,5 @@
+@startuml
+class AuthService <<static>> {
+    + {static} <<async>> LoginAnonymously() : Task
+}
+@enduml

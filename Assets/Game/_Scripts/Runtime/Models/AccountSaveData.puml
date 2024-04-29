@@ -1,0 +1,6 @@
+@startuml
+class AccountSaveData {
+    + accountLevel : int
+    + accountExperience : int
+}
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+class BattleSystem {
+    - battleUnitBasePrefab : BattleUnit
+    - _battleStateMachine : BattleStateMachine
+    - PlayerUnits : List<BattleUnit> <<get>> <<set>>
+    - EnemyUnits : List<BattleUnit> <<get>> <<set>>
+    - _allUnits : List<BattleUnit>
+    + BattleStateMachine : BattleStateMachine <<get>>
+    + {static} Instance : BattleSystem <<get>>
+    - Awake() : void
+    - Start() : void
+    - Update() : void
+    - InitializeBattle() : void
+    - CreateAllUnits() : void
+    - GetEnemyUnitsForMission(missionName:string) : List<BattleUnit>
+    - CreateBattleUnit(unit:Unit.Unit, isAIUnit:bool) : BattleUnit
+    - SetUnitToSpawnLocation() : void
+    - SortUnitsBySpeed() : void
+    - CreateStateMachine() : void
+}
+MonoBehaviour <|-- BattleSystem
+@enduml

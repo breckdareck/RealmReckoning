@@ -1,0 +1,17 @@
+@startuml
+class UI_CatalogUnit {
+    - starOffImage : Sprite
+    - starOnImage : Sprite
+    - unitButton : Button
+    - unitImage : Image
+    - unitNameText : TMP_Text
+    - starImages : List<Image>
+    - attachedUnitData : Runtime.Unit.Unit
+    + AttachedUnitData : Runtime.Unit.Unit <<get>>
+    - OnEnable() : void
+    - OnDisable() : void
+    + InitializeUI() : void
+    + SetAttachedUnitData(newUnitData:Runtime.Unit.Unit) : void
+}
+MonoBehaviour <|-- UI_CatalogUnit
+@enduml

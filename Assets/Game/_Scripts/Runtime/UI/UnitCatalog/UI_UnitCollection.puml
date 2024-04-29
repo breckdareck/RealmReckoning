@@ -1,0 +1,43 @@
+@startuml
+class UI_UnitCollection {
+    - backButton : Button
+    - gain100ExpButton : Button
+    - gain1000ExpButton : Button
+    - teamSlotButtons : List<Button>
+    - addUnitToTeamButton : Button
+    - catalogUnitPrefab : UI_CatalogUnit
+    - starOffImage : Sprite
+    - starOnImage : Sprite
+    - contentBox : Transform
+    - selectedUnit : Runtime.Unit.Unit
+    - unitNameText : TMP_Text
+    - starImages : List<Image>
+    - unitExpSlider : Slider
+    - levelText : TMP_Text
+    - healthText : TMP_Text
+    - armorText : TMP_Text
+    - magikArmorText : TMP_Text
+    - offenseText : TMP_Text
+    - critChanceText : TMP_Text
+    - critDamageText : TMP_Text
+    - speedText : TMP_Text
+    + {static} Instance : UI_UnitCollection <<get>>
+    - Awake() : void
+    - Start() : void
+    - OnEnable() : void
+    - OnDisable() : void
+    - InitializeSlotButtons() : void
+    - InitializeUnitSlots() : void
+    + AddSelectedUnitToTeamSlot() : void
+    - RemoveUnitFromTeamSlot(slotNumber:int) : void
+    - ResetTeamSlotUI() : void
+    + UpdateSelectedUnit(newSelectedUnit:Runtime.Unit.Unit) : void
+    - UpdateStatsScreen() : void
+    - UpdateUnitExperienceSlider() : void
+    - UpdateStarImages() : void
+    - UpdateStatScreenTexts() : void
+    + CloseUnitCollectionMenu() : void
+    + OnDebugGainExpButtonPressed(expToGive:int) : void
+}
+MonoBehaviour <|-- UI_UnitCollection
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+class UI_Battle {
+    - currentStateText : TMP_Text
+    - endBattleButton : Button
+    - nextStepText : TMP_Text
+    - abilityButtons : Button[]
+    - debugUnitStatsText : TMP_Text
+    + {static} Instance : UI_Battle <<get>>
+    - Awake() : void
+    - Start() : void
+    - OnEnable() : void
+    - OnDisable() : void
+    - UpdateStateText() : void
+    - UpdateStepText(text:string) : void
+    - UpdateDebugUnitStatsText() : void
+    + SetupAbilityButton(abilitySo:AbilitySO, buttonIndex:int) : void
+    - OnAbilityButtonClick(abilitySo:AbilitySO) : void
+}
+MonoBehaviour <|-- UI_Battle
+@enduml

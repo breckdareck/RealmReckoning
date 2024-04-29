@@ -1,0 +1,6 @@
+@startuml
+class StatusEffectAbilityAction {
+    + statusEffects : List<StatusEffectSO>
+}
+AbilityAction <|-- StatusEffectAbilityAction
+@enduml

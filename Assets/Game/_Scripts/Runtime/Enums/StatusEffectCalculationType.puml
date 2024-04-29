@@ -1,0 +1,6 @@
+@startuml
+enum StatusEffectCalculationType {
+    Additive,
+    Multiplicative,
+}
+@enduml

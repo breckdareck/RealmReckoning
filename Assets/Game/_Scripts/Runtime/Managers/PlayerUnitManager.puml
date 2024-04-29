@@ -1,0 +1,22 @@
+@startuml
+class PlayerUnitManager {
+    - savedUnits : Dictionary<string,UnitSaveData>
+    - playerUnlockedUnits : List<Unit.Unit>
+    - playerTeam : List<Unit.Unit>
+    + {static} Instance : PlayerUnitManager <<get>>
+    - Awake() : void
+    - <<async>> Start() : void
+    - <<async>> Update() : void
+    - SaveUnits() : void
+    - <<async>> LoadSavedUnits() : Task
+    - <<async>> SetPlayerUnlockedUnits() : Task
+    + GetPlayerTeam() : List<Unit.Unit>
+    + AddUnitToTeam(unitToAdd:Unit.Unit) : bool
+    + RemoveUnitFromTeam(slotNumber:int) : void
+    + GetPlayerUnlockedUnits() : List<Unit.Unit>
+    - OnApplicationQuit() : void
+    - OnApplicationFocus(hasFocus:bool) : void
+    - OnApplicationPause(pauseStatus:bool) : void
+}
+MonoBehaviour <|-- PlayerUnitManager
+@enduml
