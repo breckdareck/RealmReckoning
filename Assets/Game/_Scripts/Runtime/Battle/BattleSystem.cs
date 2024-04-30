@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Game._Scripts.Runtime.Enums;
 using Game._Scripts.Runtime.Managers;
 using Game._Scripts.Runtime.Scriptables;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -18,7 +19,7 @@ namespace Game._Scripts.Runtime.Battle
         
         private List<BattleUnit> EnemyUnits { get; set; }
         
-        private List<BattleUnit> _allUnits;
+        [ShowInInspector] private List<BattleUnit> _allUnits;
         
         public BattleStateMachine BattleStateMachine => _battleStateMachine;
         

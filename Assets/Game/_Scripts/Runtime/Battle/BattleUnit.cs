@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Enums;
 using Game._Scripts.Runtime.Managers;
 using Game._Scripts.Runtime.Scriptables;
@@ -150,39 +151,41 @@ namespace Game._Scripts.Runtime.Battle
         }
 
         [Button]
-        public void ApplyStatusEffect(StatusEffectSO statusEffectSo)
+        public void ApplyStatusEffect(StatusEffectSO statusEffectSO, int turnsEffected)
         {
             // Check For Status Effect (Buff Immunity) - Don't allow buffs to be added
-            if (Model.StatusEffects.Exists(x => x.StatusEffectName == BuffImmunity) &&
-                statusEffectSo.StatusEffectType == StatusEffectType.Buff) return;
+            if (Model.StatusEffects.Exists(x => x.StatusEffectSO.StatusEffectName == BuffImmunity) &&
+                statusEffectSO.StatusEffectType == StatusEffectType.Buff) return;
 
-            var effectCheck = Model.StatusEffects.FirstOrDefault(effect => effect.StatusEffectName == statusEffectSo.StatusEffectName);
+            var effectCheck = Model.StatusEffects.FirstOrDefault(effect => effect.StatusEffectSO.StatusEffectName == statusEffectSO.StatusEffectName);
             if (effectCheck != default)
             {
                 // Check For Stacking, Max Stacks
-                if (statusEffectSo.CanStack)
+                if (statusEffectSO.CanStack)
                 {
                     effectCheck.IncreaseStackCount();
                     effectCheck.ResetTurnsEffected();
                 }
                 // If can't Stack, but exists and Duplicatable
-                else if (!statusEffectSo.CanStack &&
-                         statusEffectSo.Duplicatable)
+                else if (!statusEffectSO.CanStack &&
+                         statusEffectSO.Duplicatable)
                 {
-                    Model.StatusEffects.Add(statusEffectSo);
-                    UIBattleUnit.CreateStatusEffectIcon(statusEffectSo);
+                    var newStatusEffect = new StatusEffect(statusEffectSO, turnsEffected);
+                    Model.StatusEffects.Add(newStatusEffect);
+                    UIBattleUnit.CreateStatusEffectIcon(newStatusEffect);
                 }
                 // If can't Stack but exists ResetTurns
                 else
                 {
                     effectCheck.ResetTurnsEffected();
+                    effectCheck.SetAppliedThisTurn(true);
                 }
             }
             else
             {
-                statusEffectSo.ResetTurnsEffected();
-                Model.StatusEffects.Add(statusEffectSo);
-                UIBattleUnit.CreateStatusEffectIcon(statusEffectSo);
+                var newStatusEffect = new StatusEffect(statusEffectSO, turnsEffected);
+                Model.StatusEffects.Add(newStatusEffect);
+                UIBattleUnit.CreateStatusEffectIcon(newStatusEffect);
             }
 
             RemoveCurrentBonusStats();
@@ -194,10 +197,10 @@ namespace Game._Scripts.Runtime.Battle
         {
             int effectsRemoved = 0;
             
-            var targetStatusEffects = new List<StatusEffectSO>(Model.StatusEffects);
+            var targetStatusEffects = new List<StatusEffect>(Model.StatusEffects);
             foreach (var statusEffect in targetStatusEffects)
             {
-                if (statusEffect.Dispellable)
+                if (statusEffect.StatusEffectSO.Dispellable)
                 {
                     Model.StatusEffects.Remove(statusEffect);
                     effectsRemoved += 1;
@@ -215,10 +218,10 @@ namespace Game._Scripts.Runtime.Battle
         {
             int effectsRemoved = 0;
 
-            var targetStatusEffects = new List<StatusEffectSO>(Model.StatusEffects);
+            var targetStatusEffects = new List<StatusEffect>(Model.StatusEffects);
             foreach (var statusEffect in targetStatusEffects)
             {
-                if (statusEffect.Dispellable && effects.Contains(statusEffect))
+                if (statusEffect.StatusEffectSO.Dispellable && effects.Exists(x => x.StatusEffectName == statusEffect.StatusEffectSO.StatusEffectName ))
                 {
                     Model.StatusEffects.Remove(statusEffect);
                     effectsRemoved += 1;
@@ -246,16 +249,25 @@ namespace Game._Scripts.Runtime.Battle
 
         private void CalculateBattleBonusStats()
         {
-            foreach (var effect in Model.StatusEffects)
-            foreach (var data in effect.StatusEffectDatas)
-                if (effect.StatusEffectCalculationType == StatusEffectCalculationType.Additive)
-                    Model.BattleBonusStats[data.StatEffected] =
-                        (float)data.EffectAmountPercent / 100 * effect.StackCount;
+            foreach (var (effect, data) in from effect in Model.StatusEffects
+                                           from data in effect.StatusEffectSO.StatusEffectDatas
+                                           select (effect, data))
+            {   
+                if (!Model.BattleBonusStats.ContainsKey(data.StatEffected))
+                    Model.BattleBonusStats[data.StatEffected] = 0;
+
+                if (effect.StatusEffectSO.StatusEffectCalculationType == StatusEffectCalculationType.Additive)
+                    Model.BattleBonusStats[data.StatEffected] = (data.EffectAmountPercent * effect.StackCount) +
+                            Model.BattleBonusStats[data.StatEffected];
+
                 else
-                        Model.BattleBonusStats[data.StatEffected] =
-                        Model.Unit.currentUnitStats[data.StatEffected] * ((float)data.EffectAmountPercent /
-                                                                           100 *
-                                                                           effect.StackCount);
+                    Model.BattleBonusStats[data.StatEffected] =
+                    (Model.Unit.currentUnitStats[data.StatEffected] *
+                    (data.EffectAmountPercent * effect.StackCount)) +
+                    Model.BattleBonusStats[data.StatEffected];
+                    
+            }
+
         }
 
         private void RecalculateCurrentStats()
@@ -286,6 +298,7 @@ namespace Game._Scripts.Runtime.Battle
                     statusEffect.TickDownStatusEffect();
                 }
                 var expiredStatusEffects = Model.StatusEffects.Where(statusEffect => statusEffect.RemainingTurnsEffected <= 0).ToList();
+                if (expiredStatusEffects.Count <= 0) return;
                 Model.StatusEffects.RemoveAll(x => x.RemainingTurnsEffected <= 0);
                 expiredStatusEffects.ForEach(x => x.OnDestroy());
                 RemoveCurrentBonusStats();

@@ -27,8 +27,8 @@ namespace Game._Scripts.Runtime.Tools
                 // Create new Scriptable Objects
                 var unitData = ScriptableObject.CreateInstance<UnitDataSO>();
 
-                unitData.baseUnitStats = new Dictionary<StatType, float>();
-                unitData.SetupDefaultBaseStats();
+                unitData.baseUnitStats = new Dictionary<StatType, int>();
+                
 
                 FactionSO factionSo;
                 UnitRankSO rankSo;
@@ -59,40 +59,40 @@ namespace Game._Scripts.Runtime.Tools
                             unitData.unitRankSo = rankSo;
                             break;
                         case "baselevel":
-                            unitData.baseUnitStats.Add(StatType.Level, float.Parse(value));
+                            unitData.baseUnitStats.Add(StatType.Level, int.Parse(value));
                             break;
                         case "basestr":
-                            unitData.baseUnitStats.Add(StatType.Strength, float.Parse(value));
+                            unitData.baseUnitStats.Add(StatType.Strength, int.Parse(value));
                             break;
                         case "addstrperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.StrengthPerLevel, float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.StrengthPerLevel, (int)float.Parse(value));
                             break;
                         case "baseagi":
-                            unitData.baseUnitStats.Add(StatType.Agility, float.Parse(value));
+                            unitData.baseUnitStats.Add(StatType.Agility, int.Parse(value));
                             break;
                         case "addagiperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.AgilityPerLevel, float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.AgilityPerLevel, (int)float.Parse(value));
                             break;
                         case "basemag":
-                            unitData.baseUnitStats.Add(StatType.Magik, float.Parse(value));
+                            unitData.baseUnitStats.Add(StatType.Magik, int.Parse(value));
                             break;
                         case "addmagperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikPerLevel, float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikPerLevel, (int)float.Parse(value));
                             break;
                         case "speed":
-                            unitData.baseUnitStats.Add(StatType.Speed, float.Parse(value));
+                            unitData.baseUnitStats.Add(StatType.Speed, int.Parse(value));
                             break;
                         case "basearmor":
-                            unitData.baseUnitStats.Add(StatType.Armor, float.Parse(value));
+                            unitData.baseUnitStats.Add(StatType.Armor, int.Parse(value));
                             break;
                         case "basemagarmor":
-                            unitData.baseUnitStats.Add(StatType.MagikArmor, float.Parse(value));
+                            unitData.baseUnitStats.Add(StatType.MagikArmor, int.Parse(value));
                             break;
                         case "armoraddedperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.ArmorPerLevel, float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.ArmorPerLevel, (int)float.Parse(value));
                             break;
                         case "magarmoraddedperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikArmorPerLevel, float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikArmorPerLevel, (int)float.Parse(value));
                             break;
                         default:
                             if (header.StartsWith("tag_"))
@@ -111,6 +111,8 @@ namespace Game._Scripts.Runtime.Tools
                 // Save the Scriptable Objects
                 unitData.unitTags = tags.ToArray();
 
+                unitData.SetupDefaultBaseStats();
+
                 AssetDatabase.CreateAsset(unitData,
                     $"Assets/Resources/UnitData/{unitData.unitName}.asset");
                 Debug.Log($"Assets Created: {unitData.unitName}");
@@ -120,7 +122,7 @@ namespace Game._Scripts.Runtime.Tools
             AssetDatabase.Refresh();
         }
 
-        private static T LoadOrCreateScriptableObject<T>(string path) where T : ScriptableObject
+        public static T LoadOrCreateScriptableObject<T>(string path) where T : ScriptableObject
         {
             var scriptableObject = AssetDatabase.LoadAssetAtPath<T>(path);
 

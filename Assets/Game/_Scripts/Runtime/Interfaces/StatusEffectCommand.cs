@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Enums;
 using Game._Scripts.Runtime.Scriptables;
@@ -10,11 +11,13 @@ namespace Game._Scripts.Runtime.Interfaces
     {
         private readonly List<StatusEffectSO> _statusEffects;
         private readonly int _extraChanceToAfflict;
+        private readonly int _effectDuration;
 
-        public StatusEffectCommand(List<StatusEffectSO> statusEffects, int extraChanceToAfflict)
+        public StatusEffectCommand(List<StatusEffectSO> statusEffects, int extraChanceToAfflict, int effectDuration)
         {
             _statusEffects = statusEffects;
             _extraChanceToAfflict = extraChanceToAfflict;
+            _effectDuration = effectDuration;
         }
 
         public void Execute(BattleUnit source, BattleUnit target, AbilitySO ability)
@@ -36,7 +39,7 @@ namespace Game._Scripts.Runtime.Interfaces
             foreach (var statusEffect in _statusEffects)
             {
                 Debug.Log($"{target.name} was Afflicted with {statusEffect.StatusEffectName} by {source.name}");
-                target.ApplyStatusEffect(statusEffect);
+                target.ApplyStatusEffect(statusEffect, _effectDuration);
             }
         }
     }

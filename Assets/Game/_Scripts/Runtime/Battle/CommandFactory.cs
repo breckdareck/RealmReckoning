@@ -23,7 +23,7 @@ namespace Game._Scripts.Runtime.Battle
                 case ActionType.StatusEffect:
                     var statusEffectAbilityAction = action as StatusEffectAbilityAction;
                     var newStatusEffects = statusEffectAbilityAction.statusEffects.Select(effect => Object.Instantiate(effect)).ToList();
-                    return new StatusEffectCommand(newStatusEffects, 0);
+                    return new StatusEffectCommand(newStatusEffects, 0, 0);
                 
                 case ActionType.Dispell:
                     return new DispellCommand(null);

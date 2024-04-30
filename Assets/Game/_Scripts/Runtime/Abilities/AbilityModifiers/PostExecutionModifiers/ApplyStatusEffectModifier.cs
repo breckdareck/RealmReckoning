@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Enums;
 using Game._Scripts.Runtime.Interfaces;
@@ -22,14 +23,10 @@ namespace Game._Scripts.Runtime.Abilities.AbilityModifiers.PostExecutionModifier
 
         public override void ApplyPostEffect(BattleUnit source, BattleUnit target, AbilitySO ability)
         {
-            // Create a new instance of the added status effect
-            if (AddedStatusEffect == null) return;
-            var statusEffect = Object.Instantiate(AddedStatusEffect);
-            statusEffect.SetTurnsEffected(EffectedDuration);
-            List<StatusEffectSO> effects = new() { statusEffect };
+            List<StatusEffectSO> effects = new() { AddedStatusEffect };
             
             // Create a command with the status effect and chance to afflict
-            var command = new StatusEffectCommand(effects, ChanceToAfflict);
+            var command = new StatusEffectCommand(effects, ChanceToAfflict, EffectedDuration);
 
             // Apply post effect based on the target type
             switch (TargetType)
@@ -70,7 +67,7 @@ namespace Game._Scripts.Runtime.Abilities.AbilityModifiers.PostExecutionModifier
 
         private bool CheckStatusEffect(BattleUnit unit)
         {
-            return unit.Model.StatusEffects.Contains(StatusEffectToCheckAgainst);
+            return unit.Model.StatusEffects.Exists(x => x.StatusEffectSO == StatusEffectToCheckAgainst);
         }
 
         private bool CheckRank(BattleUnit unit)

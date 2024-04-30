@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Globalization;
+using Assets.Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Battle;
 using Game._Scripts.Runtime.Managers;
 using Game._Scripts.Runtime.Scriptables;
@@ -126,7 +127,7 @@ namespace Game._Scripts.Runtime.UI.Unit
             damageTextObj.SetDamageText(text, isHeal, false);
         }
 
-        public void CreateStatusEffectIcon(StatusEffectSO statusEffect)
+        public void CreateStatusEffectIcon(StatusEffect statusEffect)
         {
             var statusEffectObj = Instantiate(statusEffectIconPrefab, statusEffectsLocation);
             statusEffectObj.SetStatusEffect(statusEffect);
