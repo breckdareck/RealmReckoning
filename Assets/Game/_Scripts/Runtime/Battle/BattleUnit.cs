@@ -151,7 +151,7 @@ namespace Game._Scripts.Runtime.Battle
         }
 
         [Button]
-        public void ApplyStatusEffect(StatusEffectSO statusEffectSO)
+        public void ApplyStatusEffect(StatusEffectSO statusEffectSO, int turnsEffected)
         {
             // Check For Status Effect (Buff Immunity) - Don't allow buffs to be added
             if (Model.StatusEffects.Exists(x => x.StatusEffectSO.StatusEffectName == BuffImmunity) &&
@@ -170,7 +170,7 @@ namespace Game._Scripts.Runtime.Battle
                 else if (!statusEffectSO.CanStack &&
                          statusEffectSO.Duplicatable)
                 {
-                    var newStatusEffect = new StatusEffect(statusEffectSO);
+                    var newStatusEffect = new StatusEffect(statusEffectSO, turnsEffected);
                     Model.StatusEffects.Add(newStatusEffect);
                     UIBattleUnit.CreateStatusEffectIcon(newStatusEffect);
                 }
@@ -183,7 +183,7 @@ namespace Game._Scripts.Runtime.Battle
             }
             else
             {
-                var newStatusEffect = new StatusEffect(statusEffectSO);
+                var newStatusEffect = new StatusEffect(statusEffectSO, turnsEffected);
                 Model.StatusEffects.Add(newStatusEffect);
                 UIBattleUnit.CreateStatusEffectIcon(newStatusEffect);
             }
@@ -252,18 +252,22 @@ namespace Game._Scripts.Runtime.Battle
             foreach (var (effect, data) in from effect in Model.StatusEffects
                                            from data in effect.StatusEffectSO.StatusEffectDatas
                                            select (effect, data))
-            {
+            {   
                 if (!Model.BattleBonusStats.ContainsKey(data.StatEffected))
                     Model.BattleBonusStats[data.StatEffected] = 0;
+
                 if (effect.StatusEffectSO.StatusEffectCalculationType == StatusEffectCalculationType.Additive)
-                    Model.BattleBonusStats[data.StatEffected] = (data.EffectAmountPercent / 100 * effect.StackCount) +
+                    Model.BattleBonusStats[data.StatEffected] = (data.EffectAmountPercent * effect.StackCount) +
                             Model.BattleBonusStats[data.StatEffected];
+
                 else
                     Model.BattleBonusStats[data.StatEffected] =
                     (Model.Unit.currentUnitStats[data.StatEffected] *
-                    (data.EffectAmountPercent / 100 * effect.StackCount)) +
+                    (data.EffectAmountPercent * effect.StackCount)) +
                     Model.BattleBonusStats[data.StatEffected];
+                    
             }
+
         }
 
         private void RecalculateCurrentStats()

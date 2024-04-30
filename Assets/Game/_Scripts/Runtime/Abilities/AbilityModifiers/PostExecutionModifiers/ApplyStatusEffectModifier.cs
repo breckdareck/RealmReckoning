@@ -26,7 +26,7 @@ namespace Game._Scripts.Runtime.Abilities.AbilityModifiers.PostExecutionModifier
             List<StatusEffectSO> effects = new() { AddedStatusEffect };
             
             // Create a command with the status effect and chance to afflict
-            var command = new StatusEffectCommand(effects, ChanceToAfflict);
+            var command = new StatusEffectCommand(effects, ChanceToAfflict, EffectedDuration);
 
             // Apply post effect based on the target type
             switch (TargetType)

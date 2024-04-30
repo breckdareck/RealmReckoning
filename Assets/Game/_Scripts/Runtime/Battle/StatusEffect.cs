@@ -8,9 +8,11 @@ namespace Assets.Game._Scripts.Runtime.Battle
     [Serializable]
     public class StatusEffect
     {
-        public StatusEffect(StatusEffectSO statusEffectSO)
+        public StatusEffect(StatusEffectSO statusEffectSO, int turnsEffected)
         {
             StatusEffectSO = statusEffectSO;
+            MaxTurnsEffected = turnsEffected;
+            RemainingTurnsEffected = turnsEffected;
         }
 
         public event Action OnStackCountChangedEvent;
@@ -22,7 +24,7 @@ namespace Assets.Game._Scripts.Runtime.Battle
         [field: SerializeField] public int StackCount { get; private set; } = 1;
         [field: SerializeField] public bool AppliedThisTurn { get; private set; } = true;
         [field: SerializeField] public int RemainingTurnsEffected { get; private set; } = 1;
-        [field: SerializeField] public int TurnsEffected { get; private set; } = 1;
+        [field: SerializeField] public int MaxTurnsEffected { get; private set; } = 1;
 
 
         // TODO - Possibly might need an amount to add.
@@ -32,15 +34,9 @@ namespace Assets.Game._Scripts.Runtime.Battle
             OnStackCountChangedEvent?.Invoke();
         }
 
-        public void SetTurnsEffected(int newTurnsEffected)
-        {
-            TurnsEffected = newTurnsEffected;
-            OnTurnsEffectedChangedEvent?.Invoke();
-        }
-
         public void ResetTurnsEffected()
         {
-            RemainingTurnsEffected = TurnsEffected;
+            RemainingTurnsEffected = MaxTurnsEffected;
             SetAppliedThisTurn(true);
             OnTurnsEffectedChangedEvent?.Invoke();
         }
