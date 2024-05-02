@@ -26,7 +26,7 @@ namespace Game._Scripts.Runtime.Unit
         [FoldoutGroup("Current Unit Data"), ShowInInspector]
         public List<GearSlot> gearSlots = new (5);
         
-        [FoldoutGroup("Current Unit Data"), ShowIf("@this.currentUnitStats != null")]
+        [FoldoutGroup("Current Unit Data"), ShowInInspector, ShowIf("@this.currentUnitStats != null")]
         public int ExperienceRequiredToLevel => Convert.ToInt32(LevelingConstants.BaseExperience *
                                                                 Math.Pow(LevelingConstants.Multiplier,
                                                                     currentUnitStats[StatType.Level] - 1));
@@ -62,7 +62,7 @@ namespace Game._Scripts.Runtime.Unit
             // TODO : Add Gear Additives to Health Formula
             
             // Formula = (Str*35.6)+(Agi*11.6)+(Mag*17.5) + Gear additives
-            var health = (int)Mathf.Round((float)(str * 35.6 + agi * 11.6 + mag * 17.5));
+            var health = (int)Mathf.Round((float)((str * 35.6) + agi * 11.6 + (mag * 17.5)));
             currentUnitStats[StatType.Health] = health;
 
             // Setup Potency and Resilience
@@ -157,7 +157,7 @@ namespace Game._Scripts.Runtime.Unit
 
             // TODO : Add Gear Additives to Health Formula
             // Formula = (Str*35.6)+(Agi*11.6)+(Mag*17.5) + Gear additives
-            var health = (int)Mathf.Round((float)(str * 35.6 + agi * 11.6 + mag * 17.5));
+            var health = (int)Mathf.Round((float)((str * 35.6) + (agi * 11.6) + (mag * 17.5)));
             currentUnitStats[StatType.Health] = health;
 
             Debug.Log($"{UnitData.unitName} - Stats were updated");
@@ -168,26 +168,33 @@ namespace Game._Scripts.Runtime.Unit
             switch (stat)
             {
                 case StatType.Strength:
-                    return Mathf.RoundToInt(UnitData.baseUnitStats[StatType.Strength] +
-                           UnitData.unitLevelUpBonus[StatLevelUpBonus.StrengthPerLevel] *
-                           (unitLevel - 1) *
-                           Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]));
+                    return Mathf.RoundToInt(UnitData.baseUnitStats[StatType.Strength] + 
+                        UnitData.unitLevelUpBonus[StatLevelUpBonus.StrengthPerLevel] * 
+                        (unitLevel - 1) * 
+                        Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]));
+
                 case StatType.Agility:
                     return Mathf.RoundToInt(UnitData.baseUnitStats[StatType.Agility] +
                            UnitData.unitLevelUpBonus[StatLevelUpBonus.AgilityPerLevel] *
                            (unitLevel - 1) *
                            Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]));
+
                 case StatType.Magik:
                     return Mathf.RoundToInt(UnitData.baseUnitStats[StatType.Magik] +
                            UnitData.unitLevelUpBonus[StatLevelUpBonus.MagikPerLevel] *
                            (unitLevel - 1) *
                            Mathf.Pow(1.22f, currentUnitStats[StatType.StarRating]));
+
                 case StatType.Armor:
                     return UnitData.baseUnitStats[StatType.Armor] +
-                           UnitData.unitLevelUpBonus[StatLevelUpBonus.ArmorPerLevel] * (unitLevel - 1);
+                           Mathf.RoundToInt(UnitData.unitLevelUpBonus[StatLevelUpBonus.ArmorPerLevel] * 
+                           (unitLevel - 1));
+
                 case StatType.MagikArmor:
                     return UnitData.baseUnitStats[StatType.MagikArmor] +
-                           UnitData.unitLevelUpBonus[StatLevelUpBonus.MagikArmorPerLevel] * (unitLevel - 1);
+                           Mathf.RoundToInt(UnitData.unitLevelUpBonus[StatLevelUpBonus.MagikArmorPerLevel] * 
+                           (unitLevel - 1));
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(stat), stat, null);
             }

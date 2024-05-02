@@ -23,7 +23,7 @@ namespace Game._Scripts.Runtime.Scriptables
         [SerializeField] [FoldoutGroup("Base Unit Data")]
         public Dictionary<StatType, int> baseUnitStats = new();
         [SerializeField] [FoldoutGroup("Base Unit Data")]
-        public Dictionary<StatLevelUpBonus, int> unitLevelUpBonus = new();
+        public Dictionary<StatLevelUpBonus, float> unitLevelUpBonus = new();
         [FoldoutGroup("Base Unit Data")] public AbilitySO[] abilities;
 
         [Button]

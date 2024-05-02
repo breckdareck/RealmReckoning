@@ -57,13 +57,15 @@ namespace Game._Scripts.Runtime.Battle
             Model.IsTakingTurn = false;
             Model.TurnProgress %= BattleUnitModel.MAXTURNPROGRESS;
             TickDownStatusEffects();
-            List<AbilitySO> keys = new List<AbilitySO>(Model.AbilityCooldowns.Keys);
-            foreach(AbilitySO ability in keys)
-            { 
-                Model.AbilityCooldowns[ability]--;  
-                if(Model.AbilityCooldowns[ability]==0)
-                    Model.AbilityCooldowns.Remove(ability);
-            }
+            TickCooldowns();
+        }
+
+        private void SetUnitDead()
+        {
+            Debug.Log($"{name} - Is Dead");
+            Model.TurnProgress = 0;
+            Model.StatusEffects.Clear();
+            gameObject.SetActive(false);
         }
 
         public void ApplyDamage(int damageAmount, bool isAttackDodged)
@@ -84,60 +86,22 @@ namespace Game._Scripts.Runtime.Battle
             // TODO : Change Color of damage text depending on Damage Type
             // TODO : Add Barrier and Pierce Barrier to formula
             // TODO : Calculate Barrier reduction formula to incoming damage
-            
-            var resultDamage = ComputeDamage(damageAmount);
-            
-            UIBattleUnit.CreateDamageText(resultDamage.ToString());
-            UIBattleUnit.UpdateHealthUI();
-            UIBattleUnit.UpdateBarrierUI();
-            Debug.Log($"{name} - Damage Taken: {resultDamage}");
-            if (!Model.IsDead) return;
-            SetUnitDead();
-        }
 
-        private void SetUnitDead()
-        {
-            Debug.Log($"{name} - Is Dead");
-            Model.TurnProgress = 0;
-            Model.StatusEffects.Clear();
-            gameObject.SetActive(false);
-        }
-
-        private int ComputeDamage(int damageAmount)
-        {
-            var damageRemaining = damageAmount;
-            var oldBarrierAmount = ApplyDamageToBarrier(ref damageRemaining);
-            ApplyDamageToHealth(ref damageRemaining);
-            return damageRemaining + oldBarrierAmount;
-        }
-        
-        private int ApplyDamageToBarrier(ref int remainingDamage)
-        {
-            var oldBarrierAmount = 0;
             if (Model.CurrentBarrier > 0)
             {
-                if (remainingDamage > Model.CurrentBarrier)
-                {
-                    remainingDamage -= Model.CurrentBarrier;
-                    oldBarrierAmount = Model.CurrentBarrier;
-                    Model.CurrentBarrier = 0;
-                }
-                else
-                {
-                    UIBattleUnit.CreateDamageText(remainingDamage.ToString());
-                    Model.CurrentBarrier -= Mathf.Clamp(remainingDamage, 0, Model.MaxBarrier);
-                    remainingDamage = 0;
-                }
+                var damageAfterBarrier = Math.Max(0, damageAmount - Model.CurrentBarrier);
+                Model.CurrentBarrier = Math.Max(0, Model.CurrentBarrier - damageAmount);
+                damageAmount = damageAfterBarrier;
             }
-            return oldBarrierAmount;
-        }
-        
-        private void ApplyDamageToHealth(ref int remainingDamage)
-        {
-            if (remainingDamage > 0) 
-            {
-                Model.CurrentHealth = Mathf.Clamp(Model.CurrentHealth - remainingDamage, 0, Model.MaxHealth);
-            }
+
+            Model.CurrentHealth = Math.Max(0, Model.CurrentHealth - damageAmount);
+
+            UIBattleUnit.CreateDamageText(damageAmount.ToString());
+            UIBattleUnit.UpdateHealthUI();
+            UIBattleUnit.UpdateBarrierUI();
+            Debug.Log($"{name} - Damage Taken: {damageAmount}");
+            if (!Model.IsDead) return;
+            SetUnitDead();
         }
         
         public void ApplyHeal(int healAmount, int barrierAmount)
@@ -195,42 +159,28 @@ namespace Game._Scripts.Runtime.Battle
 
         public void DispellAllStatusEffects()
         {
-            int effectsRemoved = 0;
-            
-            var targetStatusEffects = new List<StatusEffect>(Model.StatusEffects);
-            foreach (var statusEffect in targetStatusEffects)
-            {
-                if (statusEffect.StatusEffectSO.Dispellable)
-                {
-                    Model.StatusEffects.Remove(statusEffect);
-                    effectsRemoved += 1;
-                }
-            }
-
-            EventManager.Instance.InvokeOnUnitStatusEffectsDispelledEvent(effectsRemoved);
-            
-            RemoveCurrentBonusStats();
-            CalculateBattleBonusStats();
-            RecalculateCurrentStats();
+            DispellStatusEffects(e => e.Dispellable);
         }
 
         public void DispellSpecificStatusEffects(List<StatusEffectSO> effects)
         {
-            int effectsRemoved = 0;
+            DispellStatusEffects(e => e.Dispellable && effects.Contains(e));
+        }
 
+        private void DispellStatusEffects(Func<StatusEffectSO, bool> predicate)
+        {
+            int effectsRemoved = 0;
             var targetStatusEffects = new List<StatusEffect>(Model.StatusEffects);
             foreach (var statusEffect in targetStatusEffects)
             {
-                if (statusEffect.StatusEffectSO.Dispellable && effects.Exists(x => x.StatusEffectName == statusEffect.StatusEffectSO.StatusEffectName ))
+                if (predicate(statusEffect.StatusEffectSO))
                 {
                     Model.StatusEffects.Remove(statusEffect);
                     effectsRemoved += 1;
                 }
             }
-            
-            
+
             EventManager.Instance.InvokeOnUnitStatusEffectsDispelledEvent(effectsRemoved);
-            
             RemoveCurrentBonusStats();
             CalculateBattleBonusStats();
             RecalculateCurrentStats();
@@ -283,30 +233,39 @@ namespace Game._Scripts.Runtime.Battle
             UIBattleUnit.UpdateBarrierUI();
         }
 
+        private void ApplyBonusStats()
+        {
+            RemoveCurrentBonusStats();
+            CalculateBattleBonusStats();
+            RecalculateCurrentStats();
+        }
+
         public void TickDownStatusEffects()
         {
-            if (Model.StatusEffects.Count > 0)
+            for (int i = Model.StatusEffects.Count - 1; i >= 0; i--)
             {
-                foreach (var statusEffect in Model.StatusEffects)
+                var statusEffect = Model.StatusEffects[i];
+                if (!statusEffect.AppliedThisTurn)
                 {
-                    if (statusEffect.AppliedThisTurn)
-                    {
-                        statusEffect.SetAppliedThisTurn(false);
-                        continue;
-                    }
-
                     statusEffect.TickDownStatusEffect();
+                    if (statusEffect.RemainingTurnsEffected <= 0)
+                    {
+                        Model.StatusEffects.RemoveAt(i);
+                        statusEffect.OnDestroy();
+                    }
                 }
-                var expiredStatusEffects = Model.StatusEffects.Where(statusEffect => statusEffect.RemainingTurnsEffected <= 0).ToList();
-                if (expiredStatusEffects.Count <= 0) return;
-                Model.StatusEffects.RemoveAll(x => x.RemainingTurnsEffected <= 0);
-                expiredStatusEffects.ForEach(x => x.OnDestroy());
-                RemoveCurrentBonusStats();
-                CalculateBattleBonusStats();
-                RecalculateCurrentStats();
+                else
+                {
+                    statusEffect.SetAppliedThisTurn(false);
+                }
+            }
+
+            if (Model.StatusEffects.Count == 0)
+            {
+                ApplyBonusStats();
             }
         }
-        
+
         public bool IsAbilityOnCooldown(AbilitySO ability)
         {
             return Model.AbilityCooldowns.TryGetValue(ability, out int cooldown) && cooldown > 0;
@@ -319,6 +278,16 @@ namespace Game._Scripts.Runtime.Battle
                 Model.AbilityCooldowns[ability] = cooldown;
             else
                 Model.AbilityCooldowns.Add(ability, cooldown);
+        }
+
+        public void TickCooldowns()
+        {
+            var keys = new List<AbilitySO>(Model.AbilityCooldowns.Keys);
+            foreach (var ability in keys)
+            {
+                if (--Model.AbilityCooldowns[ability] == 0)
+                    Model.AbilityCooldowns.Remove(ability);
+            }
         }
     }
 }

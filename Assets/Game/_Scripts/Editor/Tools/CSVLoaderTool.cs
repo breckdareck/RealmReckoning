@@ -65,19 +65,19 @@ namespace Game._Scripts.Runtime.Tools
                             unitData.baseUnitStats.Add(StatType.Strength, int.Parse(value));
                             break;
                         case "addstrperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.StrengthPerLevel, (int)float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.StrengthPerLevel, float.Parse(value));
                             break;
                         case "baseagi":
                             unitData.baseUnitStats.Add(StatType.Agility, int.Parse(value));
                             break;
                         case "addagiperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.AgilityPerLevel, (int)float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.AgilityPerLevel, float.Parse(value));
                             break;
                         case "basemag":
                             unitData.baseUnitStats.Add(StatType.Magik, int.Parse(value));
                             break;
                         case "addmagperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikPerLevel, (int)float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikPerLevel, float.Parse(value));
                             break;
                         case "speed":
                             unitData.baseUnitStats.Add(StatType.Speed, int.Parse(value));
@@ -89,10 +89,10 @@ namespace Game._Scripts.Runtime.Tools
                             unitData.baseUnitStats.Add(StatType.MagikArmor, int.Parse(value));
                             break;
                         case "armoraddedperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.ArmorPerLevel, (int)float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.ArmorPerLevel, float.Parse(value));
                             break;
                         case "magarmoraddedperlevel":
-                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikArmorPerLevel, (int)float.Parse(value));
+                            unitData.unitLevelUpBonus.Add(StatLevelUpBonus.MagikArmorPerLevel, float.Parse(value));
                             break;
                         default:
                             if (header.StartsWith("tag_"))
@@ -112,6 +112,7 @@ namespace Game._Scripts.Runtime.Tools
                 unitData.unitTags = tags.ToArray();
 
                 unitData.SetupDefaultBaseStats();
+                unitData.SetupAbilities();
 
                 AssetDatabase.CreateAsset(unitData,
                     $"Assets/Resources/UnitData/{unitData.unitName}.asset");

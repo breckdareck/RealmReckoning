@@ -32,7 +32,6 @@ namespace Game._Scripts.Runtime.Interfaces
 
             if (!hitLanded)
             {
-                damage = 0;
                 target.ApplyDamage(damage, true);
                 return;
             }
